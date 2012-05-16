@@ -68,7 +68,7 @@ class TestSourceFile < Test::Unit::TestCase
           @source_file.lines
         end
 
-        assert_match /^Warning: coverage data provided/, captured_output
+        assert_match(/^Warning: coverage data provided/, captured_output)
       end
     end
 
@@ -80,7 +80,16 @@ class TestSourceFile < Test::Unit::TestCase
           source_file.process_skipped_lines!
         end
       end
+
+      should "handle iso-8859 encoded source files" do
+        source_file = SimpleCov::SourceFile.new(source_fixture('iso-8859.rb'), [nil, nil, 1])
+
+        assert_nothing_raised do
+          source_file.process_skipped_lines!
+        end
+      end
     end
 
   end
 end
+

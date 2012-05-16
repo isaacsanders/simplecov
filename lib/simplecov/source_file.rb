@@ -30,6 +30,7 @@ module SimpleCov
         raise ArgumentError, "Only Fixnum and nil accepted for coverage" unless coverage.kind_of?(Fixnum) or coverage.nil?
         @src, @line_number, @coverage = src, line_number, coverage
         @skipped = false
+        @src.encode!('UTF-8', 'UTF-8', :invalid => :replace) if @src.respond_to?(:encode!)
       end
 
       # Returns true if this is a line that should have been covered, but was not
@@ -84,7 +85,7 @@ module SimpleCov
     # Returns all source lines for this file as instances of SimpleCov::SourceFile::Line,
     # and thus including coverage data. Aliased as :source_lines
     def lines
-      return @lines unless @lines.nil?
+      return @lines if defined? @lines
 
       # Warning to identify condition from Issue #56
       if coverage.size > src.size
@@ -109,18 +110,30 @@ module SimpleCov
     # The coverage for this file in percent. 0 if the file has no relevant lines
     def covered_percent
       return 100.0 if lines.length == 0 or lines.length == never_lines.count
-      (covered_lines.count) * 100 / (lines.count - never_lines.count - skipped_lines.count).to_f
+      relevant_lines = lines.count - never_lines.count - skipped_lines.count
+      if relevant_lines == 0
+        0
+      else
+        (covered_lines.count) * 100 / relevant_lines.to_f
+      end
     end
 
     def covered_strength
       return 0 if lines.length == 0 or lines.length == never_lines.count
+
       lines_strength = 0
       lines.each do |c|
         lines_strength += c.coverage if c.coverage
       end
+
       effective_lines_count = (lines.count - never_lines.count - skipped_lines.count).to_f
-      strength = lines_strength / effective_lines_count
-      round_float(strength, 1)
+
+      if effective_lines_count == 0
+        0
+      else
+        strength = lines_strength / effective_lines_count
+        round_float(strength, 1)
+      end
     end
 
     # Returns all covered lines as SimpleCov::SourceFile::Line
@@ -172,3 +185,4 @@ module SimpleCov
     end
   end
 end
+

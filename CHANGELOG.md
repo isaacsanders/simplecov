@@ -1,17 +1,39 @@
-v0.6.2 (2012-04-20)
-===================
+v0.6.4, 2012-05-10 ([changes](https://github.com/colszowka/simplecov/compare/v0.6.3...v0.6.4))
+-------------------
 
-  * Updated to latest version of MultiJSON and it's new API (thanks to @sferik and @ronen).
+  * [BUGFIX] Encoding issues with ISO-8859-encoded source files fixed.
+    See https://github.com/colszowka/simplecov/pull/117. (thanks to @Deradon)
+  * [BUGFIX] Ensure ZeroDivisionErrors won't occur when calculating the coverage result, which previously
+    could happen in certain cases. See https://github.com/colszowka/simplecov/pull/128. (thanks to @japgolly)
+  * [REFACTORING] Changed a couple instance variable lookups so SimpleCov does not cause a lot of warnings when
+    running ruby at a higher warning level. See https://github.com/colszowka/simplecov/issues/106 and
+    https://github.com/colszowka/simplecov/pull/119. (thanks to @mvz and @gioele)
+
+
+v0.6.3, 2012-05-10 ([changes](https://github.com/colszowka/simplecov/compare/v0.6.2...v0.6.3))
+-------------------
+
+  * [BUGFIX] Modified the API-changes for newer multi_json versions introduced with #122 and v0.6.2 so
+    they are backwards-compatible with older multi_json gems in order to avoid simplecov polluting
+    the multi_json minimum version requirement for entire applications.
+    See https://github.com/colszowka/simplecov/issues/132
+  * Added appraisal gem to the test setup in order to run the test suite against both 1.0 and 1.3
+    multi_json gems and ensure the above actually works :)
+
+v0.6.2, 2012-04-20 ([changes](https://github.com/colszowka/simplecov/compare/v0.6.1...v0.6.2))
+-------------------
+
+  * [Updated to latest version of MultiJSON and its new API (thanks to @sferik and @ronen).
     See https://github.com/colszowka/simplecov/pull/122
 
-v0.6.1 (2012-02-24)
-===================
+v0.6.1, 2012-02-24 ([changes](https://github.com/colszowka/simplecov/compare/v0.6.0...v0.6.1))
+-------------------
 
   * [BUGFIX] Don't force-load Railtie on Rails < 3. Fixes regression introduced with
     #83. See https://github.com/colszowka/simplecov/issues/113
 
-v0.6.0 (2012-02-22)
-===================
+v0.6.0, 2012-02-22 ([changes](https://github.com/colszowka/simplecov/compare/v0.5.4...v0.6.0))
+-------------------
 
   * [FEATURE] Auto-magic `rake simplecov` task for rails
     (see https://github.com/colszowka/simplecov/pull/83, thanks @sunaku)
@@ -26,8 +48,8 @@ v0.6.0 (2012-02-22)
   * Some refactorings and cleanups as usual. Please refer to the github compare view for a full
     list of changes: https://github.com/colszowka/simplecov/compare/v0.5.4...v0.6.0
 
-v0.5.4 (2011-10-12)
-===================
+v0.5.4, 2011-10-12 ([changes](https://github.com/colszowka/simplecov/compare/v0.5.3...v0.5.4))
+-------------------
 
   * Do not give exit code 0 when there are exceptions prior to tests
     (see https://github.com/colszowka/simplecov/issues/41, thanks @nbogie)
@@ -39,8 +61,8 @@ v0.5.4 (2011-10-12)
     (see https://github.com/colszowka/simplecov/issues/86)
   * Readme formatted in Markdown :)
 
-v0.5.3 (2011-09-13)
-===================
+v0.5.3, 2011-09-13 ([changes](https://github.com/colszowka/simplecov/compare/v0.5.2...v0.5.3))
+-------------------
 
   * Fix for encoding issues that came from the nocov processing mechanism
     (see https://github.com/colszowka/simplecov/issues/71)
@@ -54,14 +76,14 @@ v0.5.3 (2011-09-13)
   * Refactored nocov processing and made it configurable using SimpleCov.ncov_token (or it's
     alias SimpleCov.skip_token)
 
-v0.5.2 (2011-09-12)
-===================
+v0.5.2, 2011-09-12 ([changes](https://github.com/colszowka/simplecov/compare/v0.5.1...v0.5.2))
+-------------------
 
   * Another fix for a bug in JSON processing introduced with MultiJSON in 0.5.1
     (see https://github.com/colszowka/simplecov/pull/75, thanks @sferik)
 
-v0.5.1 (2011-09-12)
-===================
+v0.5.1, 2011-09-12 ([changes](https://github.com/colszowka/simplecov/compare/v0.5.0...v0.5.1))
+-------------------
 **Note: Yanked 2011-09-12 because the MultiJSON-patch had a crucial bug**
 
   * Fix for invalid gemspec dependency string (see https://github.com/colszowka/simplecov/pull/70,
@@ -71,8 +93,8 @@ v0.5.1 (2011-09-12)
     is unavailable (see https://github.com/colszowka/simplecov/issues/72
     and https://github.com/colszowka/simplecov/pull/74, thanks @sferik)
 
-v0.5.0 (2011-09-09)
-===================
+v0.5.0, 2011-09-09 ([changes](https://github.com/colszowka/simplecov/compare/v0.4.2...v0.5.4))
+-------------------
 **Note: Yanked 2011-09-09 because of trouble with the gemspec.**
 
   * JSON is now used instead of YAML for resultset caching (used for merging). Should resolve
@@ -111,8 +133,7 @@ v0.5.0 (2011-09-09)
 
   * Full compatibility with Ruby 1.9.3.preview1
 
-HTML Formatter:
----------------
+### HTML Formatter:
 
   * The display of source files has been improved a lot. Weird scrolling trouble, out-of-scope line hit counts
     and such should be a thing of the past. Also, it is prettier now.
